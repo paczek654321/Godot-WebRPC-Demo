@@ -1,0 +1,68 @@
+[gd_scene load_steps=3 format=3 uid="uid://c7nr5p5wrsvlj"]
+
+[sub_resource type="GDScript" id="GDScript_v62h7"]
+script/source = "class_name WebRTCServer extends Node
+
+enum PacketType
+{
+	id,
+	join,
+	user_connected,
+	user_disconnected,
+	lobby,
+	candidate,
+	offer,
+	anwser,
+	checkin
+}
+
+var queue: Array[int]
+
+var peer := WebSocketMultiplayerPeer.new()
+
+func run() -> void:
+	peer.create_server(8915)
+	print(\"Server running\")
+
+func _process(_delta: float) -> void:
+	peer.poll()
+	while peer.get_available_packet_count() > 0:
+		print(peer.get_packet().get_string_from_utf8())
+"
+
+[sub_resource type="GDScript" id="GDScript_qrja6"]
+
+[node name="Testing" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="box" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="server" type="Button" parent="box"]
+layout_mode = 2
+text = "Server"
+script = SubResource("GDScript_v62h7")
+
+[node name="client" type="Button" parent="box"]
+layout_mode = 2
+text = "Client"
+script = SubResource("GDScript_qrja6")
+
+[connection signal="pressed" from="box/server" to="box/server" method="run"]
+[connection signal="pressed" from="box/client" to="box/client" method="run"]
