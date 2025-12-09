@@ -46,5 +46,14 @@ layout_mode = 2
 placeholder_text = "Input"
 expand_to_text_length = true
 
+[node name="output" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.01
+anchor_top = 0.01
+anchor_right = 0.25
+anchor_bottom = 0.01
+fit_content = true
+
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/Join" to="." method="join"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/Message" to="." method="message"]
